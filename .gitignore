@@ -1,0 +1,8 @@
+# IDE
+.idea/
+
+# Data
+data/
+
+# Config
+.env

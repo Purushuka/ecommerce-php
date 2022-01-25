@@ -6,3 +6,6 @@ data/
 
 # Config
 .env
+
+# Source
+app/vendor

@@ -4,12 +4,13 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit1e3eaad6f6bd780c8cd73b2f7bbbc23c
+class ComposerStaticInitf22ad07de03a22e8d16220502e9a220c
 {
     public static $files = array (
-        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -18,9 +19,11 @@ class ComposerStaticInit1e3eaad6f6bd780c8cd73b2f7bbbc23c
             'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
+            'Symfony\\Component\\VarDumper\\' => 28,
         ),
         'P' => 
         array (
+            'Purushuka\\Spotify\\' => 18,
             'PhpOption\\' => 10,
         ),
         'G' => 
@@ -30,10 +33,6 @@ class ComposerStaticInit1e3eaad6f6bd780c8cd73b2f7bbbc23c
         'D' => 
         array (
             'Dotenv\\' => 7,
-        ),
-        'A' => 
-        array (
-            'App\\' => 4,
         ),
     );
 
@@ -50,6 +49,14 @@ class ComposerStaticInit1e3eaad6f6bd780c8cd73b2f7bbbc23c
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
+        'Symfony\\Component\\VarDumper\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/var-dumper',
+        ),
+        'Purushuka\\Spotify\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
+        ),
         'PhpOption\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
@@ -61,10 +68,6 @@ class ComposerStaticInit1e3eaad6f6bd780c8cd73b2f7bbbc23c
         'Dotenv\\' => 
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
-        ),
-        'App\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src',
         ),
     );
 
@@ -79,9 +82,9 @@ class ComposerStaticInit1e3eaad6f6bd780c8cd73b2f7bbbc23c
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit1e3eaad6f6bd780c8cd73b2f7bbbc23c::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit1e3eaad6f6bd780c8cd73b2f7bbbc23c::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit1e3eaad6f6bd780c8cd73b2f7bbbc23c::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitf22ad07de03a22e8d16220502e9a220c::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitf22ad07de03a22e8d16220502e9a220c::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitf22ad07de03a22e8d16220502e9a220c::$classMap;
 
         }, null, ClassLoader::class);
     }

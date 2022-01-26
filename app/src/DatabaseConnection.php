@@ -1,6 +1,6 @@
 <?php
 
-namespace Purushuka\Spotify;
+namespace App;
 
 use PDO;
 
@@ -73,5 +73,10 @@ class DatabaseConnection
         $statement->execute(['value' => $value]);
 
         return $statement->fetchAll();
+    }
+
+    public function update(string $table, array $data, string $column = null, string $value = null): bool
+    {
+        return true;
     }
 }

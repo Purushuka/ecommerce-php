@@ -23,7 +23,6 @@ class ComposerStaticInitf22ad07de03a22e8d16220502e9a220c
         ),
         'P' => 
         array (
-            'Purushuka\\Spotify\\' => 18,
             'PhpOption\\' => 10,
         ),
         'G' => 
@@ -33,6 +32,10 @@ class ComposerStaticInitf22ad07de03a22e8d16220502e9a220c
         'D' => 
         array (
             'Dotenv\\' => 7,
+        ),
+        'A' => 
+        array (
+            'App\\' => 4,
         ),
     );
 
@@ -53,10 +56,6 @@ class ComposerStaticInitf22ad07de03a22e8d16220502e9a220c
         array (
             0 => __DIR__ . '/..' . '/symfony/var-dumper',
         ),
-        'Purushuka\\Spotify\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src',
-        ),
         'PhpOption\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
@@ -68,6 +67,10 @@ class ComposerStaticInitf22ad07de03a22e8d16220502e9a220c
         'Dotenv\\' => 
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
+        ),
+        'App\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
         ),
     );
 

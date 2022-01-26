@@ -1,6 +1,6 @@
 <?php
 
-namespace Purushuka\Spotify\Models;
+namespace App\Models;
 
 class Product extends Model
 {

@@ -1,9 +1,11 @@
 <?php
 
-namespace Purushuka\Spotify\Models;
+namespace App\Models;
 
 class Category extends Model
 {
     protected string $table = 'categories';
-    protected string $primaryKey = 'id';
+    protected array $attributes = [
+        'id', 'title', 'description'
+    ];
 }

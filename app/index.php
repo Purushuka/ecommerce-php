@@ -1,20 +1,21 @@
 <?php
 
+use Purushuka\Spotify\Models\Category;
+
 require_once './vendor/autoload.php';
 require_once './bootstrap.php';
 
-use Purushuka\Spotify\DatabaseConnection;
+$categoryModel = new Category();
 
-$db = new DatabaseConnection();
+$category=$categoryModel->find(3);
+//dump($category);
+//$category1 = $categoryModel->where('lolkek_ya_hacker_322', 'Шишкебабчик');
 
-$dataset = [
-    ['table'=> 'categories', 'data' => ['title' => '"Шишки"', 'description' => '"Лучшие шишки со всего мира"']],
-    ['table'=> 'categories', 'data' => ['title' => '"Мишки"']],
-    ['table'=> 'products', 'data' => ['title' => '"Кебабчик"']],
-    ['table'=> 'products', 'data' => ['title' => '"Кебабчек"', 'price' => '"333"']],
-    ['table'=> 'products', 'data' => ['title' => '"Тапочек"', 'description' => '"Что-то лучшее во всем мире"']],
+
+$columns = [
+    'id', 'title', 'descriptions'
 ];
 
-foreach ($dataset as $item) {
-    $db->insert($item['table'], $item['data']);
-}
+$bool = array_search('title', $columns);
+
+dump($bool);

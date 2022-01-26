@@ -54,19 +54,24 @@ class DatabaseConnection
 
     public function insert(string $table, array $data)
     {
-        //['table'=> 'categories', 'data' => ['title' => 'Шишки', 'description' => 'Лучшие шишки со всего мира']],
         $columns = implode(',', array_keys($data));
         $values = implode(',', $data);
-
-//        foreach ($data as $key => $item) {
-//            $columns .= $key . ',';
-//            $values .= $item . ',';
-//        }
-//        $columns = substr_replace($columns, '', strlen($columns) - 1);
-//        $values = substr_replace($values,'',strlen($values)-1);
-
         $query = sprintf('INSERT INTO %s(%s) VALUES(%s)', $table, $columns, $values);
         $statement = $this->getConnection()->prepare($query);
         $statement->execute();
+    }
+
+    public function select(string $table, string $column = null, string $value = null): array
+    {
+        $query = sprintf('SELECT * FROM %s', $table);
+
+        if ($column && $value) {
+            $query .= sprintf(' WHERE %s=:value', $column);
+        }
+
+        $statement = $this->getConnection()->prepare($query);
+        $statement->execute(['value' => $value]);
+
+        return $statement->fetchAll();
     }
 }

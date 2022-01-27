@@ -37,7 +37,7 @@ abstract class Model
      */
     public function __set(string $name, $value): void
     {
-        if (array_search($name, $this->attributes)) {
+        if (in_array($name, $this->attributes)) {
             $this->data[$name] = $value;
         }
     }
@@ -47,16 +47,18 @@ abstract class Model
      *
      * @param int $id
      *
-     * @return static|null
+     * @return static
      */
-    public static function find(int $id): ?self
+    public static function find(int $id): self
     {
         $instance = new static();
+
         if ($record = static::$connection->select($instance->table, $instance->primaryKey, $id)) {
             foreach ($record[0] as $key => $value) {
                 $instance->$key = $value;
             }
         }
+
         return $instance;
     }
 
@@ -80,7 +82,7 @@ abstract class Model
         return static::$connection->select($this->table, $column, $value);
     }
 
-    public function update(array $data, string $column = null, string $value = null): bool
+    public function update(array $data, string $column, string $value): bool
     {
         return static::$connection->update($this->table, $data, $column, $value);
     }

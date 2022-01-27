@@ -24,7 +24,7 @@ class DatabaseConnection
             die('Нет подключения');
         }
 
-        $this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+        $this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_NAMED);
     }
 
     /**
@@ -86,11 +86,11 @@ class DatabaseConnection
         $query = sprintf('SELECT * FROM %s', $table);
 
         if ($column && $value) {
-            $query .= sprintf(' WHERE %s=:value', $column);
+            $query .= sprintf(' WHERE %s="%s"', $column, $value);
         }
 
         $statement = $this->getConnection()->prepare($query);
-        $statement->execute(['value' => $value]);
+        $statement->execute();
 
         return $statement->fetchAll();
     }
@@ -112,8 +112,9 @@ class DatabaseConnection
             }, array_keys($data), array_values($data)));
 
         $query = sprintf('UPDATE %s SET %s WHERE %s="%s"', $table, $values, $column, $value);
+        // UPDATE categories SET title="new Title",description="newDescription" WHERE id=40
         $statement = $this->getConnection()->prepare($query);
 
-        return $statement->execute(['value' => $value]);
+        return $statement->execute();
     }
 }

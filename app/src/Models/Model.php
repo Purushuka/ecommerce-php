@@ -9,28 +9,60 @@ abstract class Model
     protected string $table;
     protected string $primaryKey = 'id';
     protected array $attributes = [];
+    private array $data = [];
     private static DatabaseConnection $connection;
 
-    public function __construct()
+    private function __construct()
     {
         if (! isset(static::$connection)) {
             static::$connection = new DatabaseConnection();
         }
     }
 
+    /**
+     * @param string $name
+     *
+     * @return mixed|null
+     */
     public function __get(string $name)
     {
-        echo "Вызываем несуществующее свойство $name";
+        return $this->data[$name] ?? null;
     }
 
+    /**
+     * @param string $name
+     * @param        $value
+     *
+     * @return void
+     */
     public function __set(string $name, $value): void
     {
-        echo "Пытаемся записать в несуществующее свойство $name - значение $value";
+        if (array_search($name, $this->attributes)) {
+            $this->data[$name] = $value;
+        }
     }
 
-    public function find(string $value): array
+    /**
+     * Возвращает модель записи
+     *
+     * @param int $id
+     *
+     * @return static|null
+     */
+    public static function find(int $id): ?self
     {
-        return static::$connection->select($this->table, $this->primaryKey, $value);
+        $instance = new static();
+        if ($record = static::$connection->select($instance->table, $instance->primaryKey, $id)) {
+            foreach ($record[0] as $key => $value) {
+                $instance->$key = $value;
+            }
+        }
+        return $instance;
+    }
+
+    public function save(): bool
+    {
+        return $this->update($this->data, $this->primaryKey, $this->id);
     }
 
     public function exists(string $column, string $value): bool
@@ -48,7 +80,7 @@ abstract class Model
         return static::$connection->select($this->table, $column, $value);
     }
 
-    public function update(array $data, string $column = null, string $value = null):bool
+    public function update(array $data, string $column = null, string $value = null): bool
     {
         return static::$connection->update($this->table, $data, $column, $value);
     }

@@ -20,7 +20,7 @@ class DatabaseConnection
             $_ENV['DB_DATABASE']
         );
 
-        if (! $this->connection = new PDO($mysql, $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'])) {
+        if (!$this->connection = new PDO($mysql, $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'])) {
             die('Нет подключения');
         }
 
@@ -40,42 +40,43 @@ class DatabaseConnection
     /**
      * Проверяет существование записи в таблице
      *
-     * @param string $table  Название таблицы
+     * @param string $table Название таблицы
      * @param string $column Название столбца
-     * @param string $value  Значение столбца
+     * @param string $value Значение столбца
      *
      * @return bool
      */
     public function exists(string $table, string $column, string $value): bool
     {
-        $query     = sprintf('SELECT %s FROM %s WHERE %s=:value', $column, $table, $column);
+        $query = sprintf('SELECT %s FROM %s WHERE %s=:value', $column, $table, $column);
         $statement = $this->getConnection()->prepare($query);
         $statement->execute(['value' => $value]);
 
-        return ! empty($statement->fetchAll());
+        return !empty($statement->fetchAll());
     }
 
     /**
      * Добавляет запись в таблицу
      *
      * @param string $table
-     * @param array  $data
+     * @param array $data
      *
-     * @return void
+     * @return int|false
      */
-    public function insert(string $table, array $data)
+    public function insert(string $table, array $data): int|false
     {
-        $columns   = implode(',', array_keys($data));
-        $values    = implode(',', $data);
-        $query     = sprintf('INSERT INTO %s(%s) VALUES(%s)', $table, $columns, $values);
-        $statement = $this->getConnection()->prepare($query);
-        $statement->execute();
+        $columns = implode(',', array_keys($data));
+        $values = implode(',', array_map(fn($v) => sprintf('"%s"', $v), $data));
+        $query = sprintf('INSERT INTO %s(%s) VALUES(%s)', $table, $columns, $values);
+        $this->getConnection()->prepare($query)->execute();
+
+        return $this->getConnection()->lastInsertId();
     }
 
     /**
      * Ищет записи в таблице
      *
-     * @param string      $table
+     * @param string $table
      * @param string|null $column
      * @param string|null $value
      *
@@ -99,7 +100,7 @@ class DatabaseConnection
      * Обновляет существующую запись в таблице
      *
      * @param string $table
-     * @param array  $data
+     * @param array $data
      * @param string $column
      * @param string $value
      *
@@ -108,8 +109,8 @@ class DatabaseConnection
     public function update(string $table, array $data, string $column, string $value): bool
     {
         $values = implode(',', array_map(function ($key, $val) {
-                return sprintf('%s="%s"', $key, $val);
-            }, array_keys($data), array_values($data)));
+            return sprintf('%s="%s"', $key, $val);
+        }, array_keys($data), array_values($data)));
 
         $query = sprintf('UPDATE %s SET %s WHERE %s="%s"', $table, $values, $column, $value);
         // UPDATE categories SET title="new Title",description="newDescription" WHERE id=40

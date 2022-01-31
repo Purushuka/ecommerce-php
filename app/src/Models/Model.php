@@ -6,6 +6,7 @@ use App\DatabaseConnection;
 
 abstract class Model
 {
+    /** @var string Название таблицы */
     protected string $table;
     protected string $primaryKey = 'id';
     protected array $attributes = [];
@@ -21,7 +22,6 @@ abstract class Model
 
     /**
      * @param string $name
-     *
      * @return mixed|null
      */
     public function __get(string $name)
@@ -32,7 +32,6 @@ abstract class Model
     /**
      * @param string $name
      * @param        $value
-     *
      * @return void
      */
     public function __set(string $name, $value): void
@@ -44,12 +43,10 @@ abstract class Model
 
     /**
      * Возвращает модель записи
-     *
      * @param int $id
-     *
      * @return static
      */
-    public static function find(int $id): self
+    public static function find(int $id): static
     {
         $instance = new static();
 
@@ -62,33 +59,94 @@ abstract class Model
         return $instance;
     }
 
+    /**
+     *Создает запись в бд sql и запись в массиве $data
+     * @param array $data
+     * @return static
+     */
+    public static function create(array $data): static
+    {
+        $instance = new static();
+        if ($instance->id = $instance->insert($data)) {
+            foreach ($data as $key => $value) {
+                $instance->$key = $value;
+            }
+        }
+
+        return $instance;
+    }
+
+    /**
+     * todo:
+     * @return array
+     */
+    public static function all(): array
+    {
+        $instance = new static();
+        $instances = [];
+        $records = static::$connection->select($instance->table);
+
+        foreach ($records as $index => $record) {
+            $instances[$index] = new static();
+            foreach ($record as $key => $value) {
+                $instances[$index]->$key = $value;
+            }
+        }
+
+        return $instances;
+    }
+
+    /**
+     * Сохраняет изменения в бд после метода update
+     * @return bool
+     */
     public function save(): bool
     {
         return $this->update($this->data, $this->primaryKey, $this->id);
     }
 
+    /**
+     * Проверяет на наличие такой же записи в бд
+     * @param string $column
+     * @param string $value
+     * @return bool
+     */
     public function exists(string $column, string $value): bool
     {
         return static::$connection->exists($this->table, $column, $value);
     }
 
-    public function insert(array $data)
+    /**
+     * Создает норвую запись в бд
+     * @param array $data
+     * @return int|false
+     */
+    public function insert(array $data): int|false
     {
-        static::$connection->insert($this->table, $data);
+        return static::$connection->insert($this->table, $data);
     }
 
+    /**
+     * Ищет запись в таблице
+     * @param string $column
+     * @param string $value
+     * @return array
+     */
+    //todo: Сделать where так же как и all, и вынести foreach в отдельный метод(а может и не надо(подумай))
     public function where(string $column, string $value): array
     {
         return static::$connection->select($this->table, $column, $value);
     }
 
+    /**
+     * Перезаписывает запись в бд
+     * @param array $data
+     * @param string $column
+     * @param string $value
+     * @return bool
+     */
     public function update(array $data, string $column, string $value): bool
     {
         return static::$connection->update($this->table, $data, $column, $value);
-    }
-
-    private function isColumnExist(string $column): bool
-    {
-        return array_search($column, $this->attributes);
     }
 }

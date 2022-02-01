@@ -77,7 +77,7 @@ abstract class Model
     }
 
     /**
-     * todo:
+     * Хранит в переменной все записи выбранной таблицы
      * @return array
      */
     public static function all(): array
@@ -85,6 +85,7 @@ abstract class Model
         $instance = new static();
         $instances = [];
         $records = static::$connection->select($instance->table);
+
 
         foreach ($records as $index => $record) {
             $instances[$index] = new static();
@@ -133,9 +134,22 @@ abstract class Model
      * @return array
      */
     //todo: Сделать where так же как и all, и вынести foreach в отдельный метод(а может и не надо(подумай))
-    public function where(string $column, string $value): array
+
+    public static function where(string $column, string $value): array
     {
-        return static::$connection->select($this->table, $column, $value);
+
+        $instance = new static();
+        $instances = [];
+        $records = static::$connection->select($instance->table,$column,$value);
+            foreach ($records as $index => $record){
+                    $instances[$index] = new static();
+                    foreach ($record as $key => $value){
+                        $instances[$index]->$key = $value;
+                    }
+
+            }
+
+        return $instances;
     }
 
     /**

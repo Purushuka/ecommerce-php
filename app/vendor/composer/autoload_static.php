@@ -33,6 +33,10 @@ class ComposerStaticInitf22ad07de03a22e8d16220502e9a220c
         array (
             'Dotenv\\' => 7,
         ),
+        'C' => 
+        array (
+            'Cocur\\Slugify\\' => 14,
+        ),
         'A' => 
         array (
             'App\\' => 4,
@@ -67,6 +71,10 @@ class ComposerStaticInitf22ad07de03a22e8d16220502e9a220c
         'Dotenv\\' => 
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
+        ),
+        'Cocur\\Slugify\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cocur/slugify/src',
         ),
         'App\\' => 
         array (

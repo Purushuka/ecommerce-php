@@ -13,4 +13,9 @@ class Category extends Model
     protected array $attributes = [
         'id', 'title', 'description'
     ];
+
+    public function products(): array
+    {
+        return Product::where('category_id', $this->id);
+    }
 }

@@ -2,7 +2,8 @@
   "require": {
     "php": "^8.0",
     "vlucas/phpdotenv": "*",
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "cocur/slugify": "^4.1"
   },
   "autoload": {
     "psr-4": {

@@ -15,7 +15,7 @@ abstract class Model
 
     private function __construct()
     {
-        if (! isset(static::$connection)) {
+        if (!isset(static::$connection)) {
             static::$connection = new DatabaseConnection();
         }
     }
@@ -67,6 +67,10 @@ abstract class Model
     public static function create(array $data): static
     {
         $instance = new static();
+
+        // generate SLUG
+        // data['slug'] = '???';
+
         if ($instance->id = $instance->insert($data)) {
             foreach ($data as $key => $value) {
                 $instance->$key = $value;
@@ -128,7 +132,7 @@ abstract class Model
     }
 
     /**
-     * Ищет запись в таблице
+     * Ищет запись в таблице по определенному title
      * @param string $column
      * @param string $value
      * @return array
@@ -137,17 +141,15 @@ abstract class Model
 
     public static function where(string $column, string $value): array
     {
-
         $instance = new static();
         $instances = [];
-        $records = static::$connection->select($instance->table,$column,$value);
-            foreach ($records as $index => $record){
-                    $instances[$index] = new static();
-                    foreach ($record as $key => $value){
-                        $instances[$index]->$key = $value;
-                    }
-
+        $records = static::$connection->select($instance->table, $column, $value);
+        foreach ($records as $index => $record) {
+            $instances[$index] = new static();
+            foreach ($record as $key => $value) {
+                $instances[$index]->$key = $value;
             }
+        }
 
         return $instances;
     }

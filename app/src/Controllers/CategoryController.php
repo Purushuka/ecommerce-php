@@ -10,7 +10,8 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $categories = Category::all();
-        $category = Category::find($request->getContent()['id']);
+        $category = Category::where('slug',$request->getContent()['slug'])[0];
+        //dump($category);
 
         $this->render('category', compact('categories', 'category'));
     }

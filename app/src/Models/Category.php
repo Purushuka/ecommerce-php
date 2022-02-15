@@ -11,7 +11,7 @@ class Category extends Model
 {
     protected string $table = 'categories';
     protected array $attributes = [
-        'id', 'title', 'description'
+        'id', 'title','slug', 'description'
     ];
 
     public function products(): array

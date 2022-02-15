@@ -78,16 +78,19 @@ class DatabaseConnection
      *
      * @param string $table
      * @param string|null $column
-     * @param string|null $value
-     *
+     * @param string|array|null $values
      * @return array
      */
-    public function select(string $table, string $column = null, string $value = null): array
+    public function select(string $table, string $column = null, string|array $values = null): array
     {
         $query = sprintf('SELECT * FROM %s', $table);
 
-        if ($column && $value) {
-            $query .= sprintf(' WHERE %s="%s"', $column, $value);
+        if ($column && $values) {
+            if (is_string($values)) {
+                $query .= sprintf(' WHERE %s="%s"', $column, $values);
+            } elseif (is_array($values)) {
+                $query .= sprintf(' WHERE %s IN (%s)', $column, implode(',', array_map(fn($v) => "$v", $values)));
+            }
         }
 
         $statement = $this->getConnection()->prepare($query);

@@ -4,13 +4,26 @@ namespace App\Models;
 
 use App\DatabaseConnection;
 
+/**
+ * Базовая модель
+ */
 abstract class Model
 {
     /** @var string Название таблицы */
     protected string $table;
+    /** @var string Название поля id*/
     protected string $primaryKey = 'id';
+    /**
+     * @var array Массив с названиями стобцов для каждой из моделей
+     */
     protected array $attributes = [];
+    /**
+     * @var array Массив для работы с магическими методами
+     */
     private array $data = [];
+    /**
+     * @var DatabaseConnection Подключение к базе данных
+     */
     private static DatabaseConnection $connection;
 
     private function __construct()
@@ -42,8 +55,8 @@ abstract class Model
     }
 
     /**
-     * Возвращает модель записи
-     * @param int $id
+     * Возвращает модель записи из бд по определенному id
+     * @param int $id передается значение стобца id
      * @return static
      */
     public static function find(int $id): static
@@ -60,16 +73,13 @@ abstract class Model
     }
 
     /**
-     *Создает запись в бд sql и запись в массиве $data
-     * @param array $data
+     *Создает запись в бд и запись в массиве $data
+     * @param array $data массив из данных для создания таблицы
      * @return static
      */
     public static function create(array $data): static
     {
         $instance = new static();
-
-        // generate SLUG
-        // data['slug'] = '???';
 
         if ($instance->id = $instance->insert($data)) {
             foreach ($data as $key => $value) {
@@ -81,15 +91,14 @@ abstract class Model
     }
 
     /**
-     * Хранит в переменной все записи выбранной таблицы
-     * @return array
+     * Возвращает массив из всех записей класса на котором была вызвана
+     * @return array<static>
      */
     public static function all(): array
     {
         $instance = new static();
         $instances = [];
         $records = static::$connection->select($instance->table);
-
 
         foreach ($records as $index => $record) {
             $instances[$index] = new static();
@@ -111,9 +120,9 @@ abstract class Model
     }
 
     /**
-     * Проверяет на наличие такой же записи в бд
-     * @param string $column
-     * @param string $value
+     * Возвращает bool значения в зависимости от наличия подобной записи в таблице
+     * @param string $column название стобца
+     * @param string $value значение в этом стобце
      * @return bool
      */
     public function exists(string $column, string $value): bool
@@ -122,8 +131,8 @@ abstract class Model
     }
 
     /**
-     * Создает норвую запись в бд
-     * @param array $data
+     * Создает норвую запись в бд и возвращает последний id вставленной записи
+     * @param array $data массив данных для создания записи
      * @return int|false
      */
     public function insert(array $data): int|false
@@ -132,25 +141,46 @@ abstract class Model
     }
 
     /**
-     * Ищет запись в таблице по определенному title
+     * Возвращает одну запись модели
      * @param string $column
      * @param string $value
-     * @return array
+     * @return array<static>
      */
-    //todo: Сделать where так же как и all, и вынести foreach в отдельный метод(а может и не надо(подумай))
-
     public static function where(string $column, string $value): array
     {
         $instance = new static();
-        $instances = [];
         $records = static::$connection->select($instance->table, $column, $value);
+        return $instance->collection($records);
+    }
+
+    /**
+     * Возвращает коллекцию моделей
+     * @param string $column Название столбца
+     * @param array $values Значение столбца
+     * @return array<static>
+     */
+    public static function whereIn(string $column, array $values): array
+    {
+        $instance = new static();
+        $records = static::$connection->select($instance->table, $column, $values);
+        return $instance->collection($records);
+    }
+
+    /**
+     * Вспомогательный метод для
+     * @param array $records Массив который вернет функция select
+     * @return array
+     */
+
+    private function collection(array $records): array
+    {
+        $instances = [];
         foreach ($records as $index => $record) {
             $instances[$index] = new static();
             foreach ($record as $key => $value) {
                 $instances[$index]->$key = $value;
             }
         }
-
         return $instances;
     }
 

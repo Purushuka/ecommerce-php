@@ -96,7 +96,7 @@
     });
 
 
-    $('.hero__categories__all').on('click', function(){
+    $('.hero__categories__all').on('click', function () {
         $('.hero__categories ul').slideToggle(400);
     });
 
@@ -219,6 +219,23 @@
             }
         }
         $button.parent().find('input').val(newVal);
+    });
+
+    $('.add-product').on('click', function () {
+        var id = $('.add-product').attr('product-id');
+
+        $.ajax({
+            url: 'http://localhost/product',
+            type: "POST",
+            data: {id: id},
+            dataType: 'json',
+            success: function (data) {
+                console.log('success' + data)
+            }, error: function (data) {
+                console.log(data)
+            }
+        });
+
     });
 
 })(jQuery);

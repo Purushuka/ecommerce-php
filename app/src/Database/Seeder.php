@@ -4,8 +4,16 @@ namespace App\Database;
 
 abstract class Seeder
 {
+    /**
+     * @var string Что-то )))
+     */
     protected string $model;
 
+    /**
+     * Действие )))
+     *
+     * @return void
+     */
     abstract protected function up(): void;
 
     public static function run(array $seeders): void

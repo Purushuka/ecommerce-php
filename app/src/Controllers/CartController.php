@@ -8,7 +8,7 @@ class CartController extends Controller
 {
     public function index()
     {
-        $cart = Cart::find(1);
+        $cart = Cart::find(1); // todo:
 
         $this->render('cart', compact('cart'));
     }

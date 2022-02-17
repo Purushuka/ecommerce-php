@@ -11,7 +11,7 @@ class CategoryController extends Controller
     {
         $categories = Category::all();
         $category = Category::where('slug',$request->getContent()['slug'])[0];
-        //dump($category);
+        dump($category);
 
         $this->render('category', compact('categories', 'category'));
     }

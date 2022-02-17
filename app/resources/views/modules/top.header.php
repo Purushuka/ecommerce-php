@@ -9,8 +9,8 @@
                         <span>Categories</span>
                     </div>
                     <ul>
-                        <?php foreach($categories as $category): ?>
-                            <li><a href="/category?slug=<?= $category->slug ?>"><?= $category->title ?></a></li>
+                        <?php foreach($categories as $cat): ?>
+                            <li><a href="/category?slug=<?= $cat->slug ?>"><?= $cat->title ?></a></li>
                         <?php endforeach; ?>
                     </ul>
                 </div>

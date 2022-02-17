@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\DatabaseConnection;
+use Cocur\Slugify\Slugify;
 
 /**
  * Базовая модель
@@ -81,6 +82,10 @@ abstract class Model
     {
         $instance = new static();
 
+        if (array_search('slug', $instance->attributes) && !isset($data['slug']) && isset($data['title'])) {
+            $data['slug'] = (new Slugify())->slugify($data['title']);
+        }
+
         if ($instance->id = $instance->insert($data)) {
             foreach ($data as $key => $value) {
                 $instance->$key = $value;
@@ -117,6 +122,11 @@ abstract class Model
     public function save(): bool
     {
         return $this->update($this->data, $this->primaryKey, $this->id);
+    }
+
+    public function delete(): void
+    {
+        static::$connection->delete($this->table, $this->primaryKey, $this->id);
     }
 
     /**

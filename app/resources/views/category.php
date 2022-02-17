@@ -8,7 +8,6 @@
 <div id="preloder">
     <div class="loader"></div>
 </div>
-
 <!-- Humberger Begin -->
 <div class="humberger__menu__overlay"></div>
 <div class="humberger__menu__wrapper">
@@ -148,9 +147,10 @@
 </header>
 <!-- Header Section End -->
 
-<?php require_once \App\Application::VIEW_PATH . '/modules/top.header.php' ?>
 
+<?php require_once \App\Application::VIEW_PATH . '/modules/top.header.php' ?>
 <!-- Featured Section Begin -->
+
 <section class="featured spad">
     <div class="container">
         <div class="row">
@@ -162,7 +162,7 @@
         </div>
         <div class="row">
             <?php foreach ($category->products() as $product): ?>
-            <div class="col-lg-3 col-md-4 col-sm-6 mix vegetables fastfood">
+            <div class="col-lg-3 col-md-4 col-sm-6 mix vegetables-category">
                 <div class="featured__item">
                     <div class="featured__item__pic set-bg" data-setbg="./resources/img/featured/photo_2021-10-22_14-56-39.jpg">
                         <ul class="featured__item__pic__hover">
@@ -172,7 +172,7 @@
                         </ul>
                     </div>
                     <div class="featured__item__text">
-                        <h6><a href="#"><?= $product->title ?></a></h6>
+                        <h6><a href="/product?slug=<?= $product->slug ?>"><?= $product->title ?></a></h6>
                         <h5>$<?= $product->price ?></h5>
                     </div>
                 </div>

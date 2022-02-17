@@ -225,17 +225,33 @@
         var id = $('.add-product').attr('product-id');
 
         $.ajax({
-            url: 'http://localhost/product',
-            type: "POST",
-            data: {id: id},
-            dataType: 'json',
-            success: function (data) {
-                console.log('success' + data)
-            }, error: function (data) {
-                console.log(data)
+            type:"POST",
+            url:"http://localhost/product",
+            data: {
+                'id': id
+            },
+            success:function (data) {
+                alert('Успешно добавлен товар');
             }
         });
+    });
 
+    $('.delete-product').on('click', function () {
+        var productId = $('.delete-product').attr('product-id');
+        var cartId = $('.delete-product').attr('cart-id');
+
+        $.ajax({
+            type:"DELETE",
+            url:"http://localhost/product",
+            data: {
+                'cart_id': cartId,
+                'product_id': productId
+            },
+            success:function (data) {
+                alert('Успешно удален товар');
+            }
+
+        });
     });
 
 })(jQuery);

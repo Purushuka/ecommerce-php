@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\Cart;
+use App\Models\CartProduct;
 use App\Models\Category;
 use App\Models\Product;
 use App\Request;
@@ -19,13 +21,17 @@ class ProductController extends Controller
 
     public function add(Request $request)
     {
-        var_dump($request->getContent());
-        return json_encode(['test' => 'data']);
+        $cart = Cart::find(1);
+        $productId = $request->getContent()['id'];
+        CartProduct::create(['cart_id' => $cart->id, 'product_id' => $productId]);
+    }
 
-//        $product = Product::where('id', $request->getContent()['id'])[0];
-//        $products = Product::all();
-//        $categories = Category::all();
-//
-//        $this->render('product', compact('product', 'products', 'categories'));
+    public function delete(Request $request)
+    {
+        $product = CartProduct::where('product_id', $request->getContent()['product_id'])[0];
+        $product->delete();
     }
 }
+
+
+

@@ -29,6 +29,7 @@ class Cart extends Model
     }
 
     /**
+     * Возвращает сумму продуктов в корзине
      * @return int
      */
     public function amount(): int

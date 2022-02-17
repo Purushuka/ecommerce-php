@@ -203,7 +203,9 @@
                                 $<?= $product->price ?>
                             </td>
                             <td class="shoping__cart__item__close">
-                                <span class="icon_close"></span>
+                                <a href="#" class="delete-product" product-id="<?= $product->id ?>" cart-id="<?= $cart->id ?>">
+                                    <span class="icon_close"></span>
+                                </a>
                             </td>
                         </tr>
                         <?php endforeach; ?>

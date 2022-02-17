@@ -15,27 +15,34 @@ use App\Database\{CartMigration,
 
 class Application
 {
+
     public const VIEW_PATH = './resources/views';
     public const CSS_PATH = './resources/css';
     public const JS_PATH = './resources/js';
 
+    /**
+     * Запуск всех основных методов
+     * @return void
+     */
     public function boot(): void
     {
-        Migration::run([
-            CategoryMigration::class,
-            ProductsMigration::class,
-            CartMigration::class,
-            CartProductMigration::class
-        ]);
+//        if ($_ENV['APP_STATE'] == 'debug') {
+//            Migration::run([
+//                CategoryMigration::class,
+//                ProductsMigration::class,
+//                CartMigration::class,
+//                CartProductMigration::class
+//            ]);
+//
+//            Seeder::run([
+//                CategorySeeder::class,
+//                ProductSeeder::class,
+//                CartSeeder::class,
+//                CartProductSeeder::class
+//            ]);
+//        }
 
-        Seeder::run([
-            CategorySeeder::class,
-            ProductSeeder::class,
-            CartSeeder::class,
-            CartProductSeeder::class
-
-        ]);
-
+        // Session here
         Router::run();
     }
 }

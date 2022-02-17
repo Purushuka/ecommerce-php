@@ -12,7 +12,7 @@ use App\Controllers\ProductController;
 class Router
 {
     private static array $map = [
-        '/'         => [
+        '/' => [
             'controller' => HomeController::class,
             'methods' => [
                 'GET' => 'index',
@@ -44,6 +44,7 @@ class Router
             'methods' => [
                 'GET' => 'index',
                 'POST' => 'add',
+                'DELETE' => 'delete'
             ]
         ],
 
@@ -55,12 +56,16 @@ class Router
         ],
     ];
 
+    /**
+     * Метод для отображения страниц по карте
+     * @return void
+     */
     public static function run(): void
     {
         $request = new Request();
 
         $uri = $request->getUri();
-        if(array_key_exists($uri, static::$map)) {
+        if (array_key_exists($uri, static::$map)) {
             if (array_key_exists($request->getMethod(), static::$map[$uri]['methods'])) {
                 $controller = static::$map[$uri]['controller'];
                 $action = static::$map[$uri]['methods'][$request->getMethod()];

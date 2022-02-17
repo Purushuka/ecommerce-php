@@ -121,4 +121,22 @@ class DatabaseConnection
 
         return $statement->execute();
     }
+
+    public function delete(string $table, string $column = null, string|array $values = null): void
+    {
+        $query = sprintf('DELETE FROM %s', $table);
+
+        if ($column && $values) {
+            if (is_string($values)) {
+                $query .= sprintf(' WHERE %s="%s"', $column, $values);
+            } elseif (is_array($values)) {
+                $query .= sprintf(' WHERE %s IN (%s)', $column, implode(',', array_map(fn($v) => "$v", $values)));
+            }
+        }
+
+        $statement = $this->getConnection()->prepare($query);
+        $statement->execute();
+    }
+
+    // todo: вынести конструкцию WHERE в отдельный метод
 }
